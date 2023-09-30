@@ -25,12 +25,10 @@ class Player:
         self.pos[y] = (1 - t) * self.pos[y] + t * target[y]
 
 class Hand:
-    def __init__(self):
+    def __init__(self, x, y):
         self.img = load_image('hand_arrow.png')
+        self.pos = (x, y)
     
-    def set_random_pos(self):
-        self.pos = [random.randint(0 + self.img.w, get_canvas_width() - self.img.w), random.randint(0 + self.img.h, get_canvas_height() - self.img.h)]  
-
     def draw(self):
         x, y = 0, 1
         self.img.draw(self.pos[x], self.pos[y])
