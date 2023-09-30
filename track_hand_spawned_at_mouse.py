@@ -64,7 +64,8 @@ class GameManager:
     
     def logic(self):
         if(len(self.hands) != 0):
-            self.player.track(self.hands[0].pos, 0.2)
+            t = min(self.hands[0].pos[0],self.player.pos[0]) / max(self.hands[0].pos[0],self.player.pos[0]) / 4
+            self.player.track(self.hands[0].pos, t)
             if( self.isCollide(self.hands[0].pos, self.player.pos, self.hands[0].img.w // 4)):
                 self.hands.pop(0)
 
