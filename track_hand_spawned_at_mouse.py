@@ -27,10 +27,9 @@ class Player:
 class Hand:
     def __init__(self):
         self.img = load_image('hand_arrow.png')
-        self.set_random_pos()
     
     def set_random_pos(self):
-        self.pos = [random.randint(0 + self.img.w, get_canvas_width() - self.img.w), random.randint(0 + self.img.h, get_canvas_height() - self.img.h)]   
+        self.pos = [random.randint(0 + self.img.w, get_canvas_width() - self.img.w), random.randint(0 + self.img.h, get_canvas_height() - self.img.h)]  
 
     def draw(self):
         x, y = 0, 1
@@ -41,7 +40,7 @@ class GameManager:
     def __init__(self):
         open_canvas(1024,720)
         self.backGround = load_image('TUK_GROUND_FULL.png')
-        self.hand = Hand()
+        self.hands = []
         self.w, self.h = 1024, 720
         self.player = Player()
         resize_canvas(self.w, self.h)
@@ -49,8 +48,9 @@ class GameManager:
     def render(self):
         clear_canvas()
         self.backGround.draw(self.w // 2, self.h // 2)
+        for hand in self.hands:
+            hand.draw()
         self.player.draw()
-        self.hand.draw()
         update_canvas()
         delay(0.1)
 
@@ -58,9 +58,10 @@ class GameManager:
         return abs(p1[0] - p2[0]) < gap and abs(p1[1] -p2[1]) < gap
     
     def logic(self):
-        self.player.track(self.hand.pos, 0.2)
-        if( self.isCollide(self.hand.pos, self.player.pos, self.hand.img.w // 2)):
-            self.hand.set_random_pos()
+        if(len(self.hands) != 0): 
+            self.player.track(self.hands[0].pos, 0.2)
+            if( self.isCollide(self.hands[0].pos, self.player.pos, self.hands[0].img.w // 2)):
+                self.hands.pop(0)
 
 GM = GameManager()
 
